@@ -17,6 +17,8 @@ def dataFinder_fromMiddle(card_list,askedNumber):
                 minus_or_plus_one=-1
             else:
                 minus_or_plus_one=1
+        else:
+            minus_or_plus_one = 1
         half_of_list=len(card_list)
         if half_of_list%2==1:
             half_of_list-=1
@@ -67,6 +69,8 @@ def dataFinder_fromClosestEnd(card_list,askedNumber):
                 minus_or_plus_one=-1
             else:
                 minus_or_plus_one=1
+        else:
+            minus_or_plus_one = 1
         start = 0
         end = len(card_list)-1
         index=-1
@@ -116,7 +120,7 @@ def checkIfPassed(card_list,index,askedNum):
 
 
 # LINEAR CHECK. (JUST TO PUT IT)
-def linearCheck(card_list,askedNum):
+def linearSearch(card_list,askedNum):
     if len(card_list)>0:
         for index in range(len(card_list)):
             if card_list[index]==askedNum:
@@ -137,6 +141,8 @@ def binarySearch(card_list,askedNum):
                 minus_or_plus_one=-1
             else:
                 minus_or_plus_one=1
+        else:
+            minus_or_plus_one = 1
         steps=1
         power=2
         current_index = len(card_list)//2
@@ -167,8 +173,8 @@ def run_Them_All(card_list,askedNum,winner_count):
     middle=dataFinder_fromMiddle(card_list,askedNum)
     print("CLOSEST END")
     closest_end=dataFinder_fromClosestEnd(card_list,askedNum)
-    print("LINEAR CHECK")
-    linear_check=linearCheck(card_list,askedNum)
+    print("LINEAR SEARCH")
+    linear_check=linearSearch(card_list,askedNum)
     print("BINARY SEARCH")
     binary_search=binarySearch(card_list,askedNum)
     winner = min(middle,closest_end,linear_check,binary_search)
@@ -180,28 +186,42 @@ def run_Them_All(card_list,askedNum,winner_count):
         winner_count[2]+=1
     if winner == binary_search:
         winner_count[3]+=1
+
+def contest(new_card_list):
+    winner_list = ["MIDDLE", "CLOSEST END", "LINEAR CHECK", "BINARY SEARCH"]
+    winner_count = [0, 0, 0, 0]
+    for index in range(-1, len(new_card_list)+1):
+        print(index.__str__())
+        run_Them_All(new_card_list, index, winner_count)
+        print(" ")
+
+        winner_num = max(winner_count[0], winner_count[1], winner_count[2], winner_count[3])
+
+    if winner_num == winner_count[0]:
+        print(winner_list[0] + " WON with " + winner_count[0].__str__() + " WINS")
+    if winner_num == winner_count[1]:
+        print(winner_list[1] + " WON with " + winner_count[1].__str__() + " WINS")
+    if winner_num == winner_count[2]:
+        print(winner_list[2] + " WON with " + winner_count[2].__str__() + " WINS")
+    if winner_num == winner_count[3]:
+        print(winner_list[3] + " WON with " + winner_count[3].__str__() + " WINS")
+
 def main():
     # LIST OF CARDS YOU WANT TO CHECK ( WILL BE SORTED DECREASINGLY )
     new_card_list=[1,2,3,4,5,6,7,8,9,10]
+    # Change reverse to True or False
+    # for the list to be decreasing(True) or increasing(False)
     new_card_list = sorted(new_card_list, reverse=True)
-    winner_list=["MIDDLE","CLOSEST END","LINEAR CHECK","BINARY SEARCH"]
-    winner_count=[0,0,0,0]
-    for index in range(-1,len(new_card_list)):
-        print(index.__str__())
-        run_Them_All(new_card_list,index,winner_count)
-        print(" ")
 
-        winner_num=max(winner_count[0],winner_count[1],winner_count[2],winner_count[3])
+    # USE contest(new_card_list) IF YOU WANT TO CHECK FROM -1 TO LENGTH
+    # WHICH FUNCTION IS BETTER TO USE
+    #contest(new_card_list)
 
-    if winner_num==winner_count[0]:
-        print(winner_list[0]+" WON with "+winner_count[0].__str__()+" WINS")
-    if winner_num == winner_count[1]:
-        print(winner_list[1] + " WON with "+winner_count[1].__str__()+" WINS")
-    if winner_num==winner_count[2]:
-        print(winner_list[2]+" WON with "+winner_count[2].__str__()+" WINS")
-    if winner_num==winner_count[3]:
-        print(winner_list[3]+" WON with "+winner_count[3].__str__()+" WINS")
+    #OR JUST TO CHECK ONE USE LIKE THIS
 
-
+    #dataFinder_fromMiddle(new_card_list,1)
+    #dataFinder_fromClosestEnd(new_card_list,1)
+    #linearSearch(new_card_list,1)
+    #binarySearch(new_card_list,1)
 
 main()
